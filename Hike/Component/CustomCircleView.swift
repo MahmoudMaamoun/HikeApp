@@ -8,8 +8,27 @@
 import SwiftUI
 
 struct CustomCircleView: View {
+    
+    @State private var isAnimating = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Circle()
+                .fill(
+                    LinearGradient(colors:
+                                    [.customIndigoMedium,
+                                     .seminLightColor],
+                                   startPoint: isAnimating ? .topLeading : .bottomLeading,
+                                   endPoint:  isAnimating ?  .bottomTrailing : .topTrailing))
+                
+                .onAppear() {
+                    withAnimation(.linear(duration: 3.0).repeatForever()) {
+                        self.isAnimating.toggle()
+                    }
+                }
+            MotionAnimationView()
+        }
+        .frame(width: 256,height: 256)
     }
 }
 

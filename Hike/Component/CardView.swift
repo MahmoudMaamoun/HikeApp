@@ -11,8 +11,9 @@ struct CardView: View {
     
     //MARK: PROPERITIES
     
-    @State private var shownImage:Int = 1
-    @State private var randomImage:Int = 1
+    @State private var shownImage : Int = 1
+    @State private var randomImage : Int = 1
+    @State private var isSheetShown : Bool = false
     
     //MARK: FUNCTIONS
     
@@ -38,7 +39,7 @@ struct CardView: View {
                                 .foregroundStyle(LinearGradient(colors: [.colorGrayMedium,.colorGrayLight], startPoint: .top, endPoint: .bottom))
                             Spacer()
                             Button(action: {
-                                
+                                isSheetShown = true
                             }, label: {
                                 CustomButtonView()
                             })
@@ -50,15 +51,7 @@ struct CardView: View {
                             .padding(.horizontal,30)
                         
                         ZStack {
-                            Circle()
-                                .fill(
-                                    LinearGradient(colors:
-                                                    [.customIndigoMedium,
-                                                     .seminLightColor],
-                                                   startPoint: .topLeading,
-                                                   endPoint: .bottomTrailing))
-                                .frame(width: 256,height: 256)
-                            
+                            CustomCircleView()                            
                             Image("image-\(randomImage)")
                                 .resizable()
                                 .scaledToFit()
@@ -86,8 +79,14 @@ struct CardView: View {
                                     radius: 0.25,x: 1,y: 2)
                     })
                     .buttonStyle(GradientButton())
+                    .padding(.bottom,8)
                   
                 }
+                .sheet(isPresented: $isSheetShown, content: {
+                   SettingsScreen()
+                        .presentationDragIndicator(.visible)
+                        .presentationDetents([.medium,.large])
+                })
                 
             }
             .frame(width: 320,height: 570)
